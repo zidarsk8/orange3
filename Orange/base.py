@@ -91,7 +91,8 @@ class Model:
 
     def predict(self, X):
         if self.predict_storage == Model.predict_storage:
-            raise TypeError("Descendants of Model must overload method predict")
+            raise TypeError(
+                "Descendants of Model must overload method predict")
         else:
             Y = np.zeros((len(X), len(self.domain.class_vars)))
             Y[:] = np.nan
@@ -109,8 +110,7 @@ class Model:
     def __call__(self, data, ret=Value):
         if not 0 <= ret <= 2:
             raise ValueError("invalid value of argument 'ret'")
-        if (ret > 0
-            and any(v.is_continuous for v in self.domain.class_vars)):
+        if (ret > 0 and any(v.is_continuous for v in self.domain.class_vars)):
             raise ValueError("cannot predict continuous distributions")
 
         # Call the predictor
@@ -129,7 +129,7 @@ class Model:
             prediction = self.predict_storage(data)
         elif isinstance(data, (list, tuple)):
             if not isinstance(data[0], (list, tuple)):
-                data = [ data ]
+                data = [data]
             data = Table(self.original_domain, data)
             data = Table(self.domain, data)
             prediction = self.predict_storage(data)
@@ -204,7 +204,8 @@ class SklLearner(Learner, metaclass=WrapperMeta):
     ${skldoc}
     Additional Orange parameters
 
-    preprocessors : list, optional (default=[RemoveNaNClasses(), Continuize(), SklImpute(), RemoveNaNColumns()])
+    preprocessors : list, optional (default=[RemoveNaNClasses(), Continuize(),
+        SklImpute(), RemoveNaNColumns()])
         An ordered list of preprocessors applied to data before
         training or testing.
     """
